@@ -15,7 +15,7 @@ columns = [
     "PUBMED CENTRAL ID", "PUBMED ID", "RELEASE DATE", 
     "PUBLICATION YEAR", "DOI", "TITLE OF PAPER", 
     "EXPRESSION HOST", "SOURCE ORGANISM", 
-    "MOLECULAR WEIGHT", "STOICHIOMETRY"
+    "MOLECULAR WEIGHT", "STOICHIOMETRY", "XRAY/EM"
 ]
 output_df = pd.DataFrame(columns=columns)
 
@@ -225,18 +225,17 @@ for index, row in genes_df.iterrows():
                 print('STOICHIOMETRY: Not found')
                 new_row.append('')
 
-            # Crystallization Method
-            # Crystal growth procedure 
-            # Structural genomics project center name 
-            # XRAY/EM
-            # Disulfide bonds 
-            # Structure determination methodology
-            # Oligomeric State
-            # Glycosylation Site
+            try:
+                # XRAY/EM
+                xray_element = driver.find_element(By.XPATH, "//strong[text()='Global Stoichiometry']/following-sibling::text()[1]")
+                xray = xray_element.text.strip()
+                print('XRAY/EM:', xray)
+                new_row.append(xray)
+            except:
+                print('XRAY/EM: Not found')
+                new_row.append('')
 
-            print('row made')
             output_df = add_row(output_df, new_row)
-            print('df updated')
 
     except:
         print('Something went wrong.')
