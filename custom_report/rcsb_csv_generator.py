@@ -218,7 +218,7 @@ for index, row in genes_df.iterrows():
             print("\nRun Report button clicked.")
 
             time.sleep(10)
-            driver.save_screenshot("screenshot.png")
+            # driver.save_screenshot("screenshot.png")
 
         except Exception as e:
             print(f'Something went wrong: {gene}')
