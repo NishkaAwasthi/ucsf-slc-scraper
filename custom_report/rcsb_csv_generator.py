@@ -17,8 +17,8 @@ def add_row(df, row_data):
     df = pd.concat([df, new_row_df], ignore_index=True)
     return df
 
-# filename = 'all_slc_genes.csv' # use this to run on all genes
-filename = 'subset_slc_genes.csv' # use this to run on a subset of genes
+# filename = 'input/all_slc_genes.csv' # use this to run on all genes
+filename = 'input/subset_slc_genes.csv' # use this to run on a subset of genes
 genes_df = pd.read_csv(filename)
 skipped_genes = []
 
@@ -258,7 +258,7 @@ for index, row in genes_df.iterrows():
     print(output_df)
 
     #? Add to CSV
-    output_filename = "output.csv" # edit this filename for different output saving
+    output_filename = "raw_output.csv" # edit this filename for different output saving
 
     file_exists = os.path.isfile(output_filename)
     output_df.to_csv(output_filename, mode='a', header=not file_exists, index=False)
