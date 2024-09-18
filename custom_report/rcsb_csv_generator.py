@@ -17,8 +17,8 @@ def add_row(df, row_data):
     df = pd.concat([df, new_row_df], ignore_index=True)
     return df
 
-# filename = 'input/all_slc_genes.csv' # use this to run on all genes
-filename = 'input/subset_slc_genes.csv' # use this to run on a subset of genes
+# filename = 'all_slc_genes.csv' # use this to run on all genes
+filename = 'subset_slc_genes.csv' # use this to run on a subset of genes
 genes_df = pd.read_csv(filename)
 skipped_genes = []
 
@@ -75,28 +75,28 @@ for index, row in genes_df.iterrows():
                 print("Checkbox for PDB ID selected.")
 
             # RESOLUTION
-            resolution_checkbox = WebDriverWait(driver, 10).until(
-                EC.presence_of_element_located((By.XPATH, "//input[@value='entry.rcsb_entry_info.diffrn_resolution_high.value']"))
-            )
-            if not resolution_checkbox.is_selected():
-                resolution_checkbox.click()
-                print("Checkbox for Resolution selected.") 
+            # resolution_checkbox = WebDriverWait(driver, 10).until(
+            #     EC.presence_of_element_located((By.XPATH, "//input[@value='entry.rcsb_entry_info.diffrn_resolution_high.value']"))
+            # )
+            # if not resolution_checkbox.is_selected():
+            #     resolution_checkbox.click()
+            #     print("Checkbox for Resolution selected.") 
 
             # CRYSTAL GROWTH
-            crystal_growth_checkbox = WebDriverWait(driver, 10).until(
-                EC.presence_of_element_located((By.XPATH, "//input[@value='entry.exptl_crystal_grow.pdbx_details']"))
-            )
-            if not crystal_growth_checkbox.is_selected():
-                crystal_growth_checkbox.click()
-                print("Checkbox for Crystal Growth Procedure selected.") 
+            # crystal_growth_checkbox = WebDriverWait(driver, 10).until(
+            #     EC.presence_of_element_located((By.XPATH, "//input[@value='entry.exptl_crystal_grow.pdbx_details']"))
+            # )
+            # if not crystal_growth_checkbox.is_selected():
+            #     crystal_growth_checkbox.click()
+            #     print("Checkbox for Crystal Growth Procedure selected.") 
 
             # Structural genomics project center name
-            gen_proj_name_checkbox = WebDriverWait(driver, 10).until(
-                EC.presence_of_element_located((By.XPATH, "//input[@value='entry.pdbx_SG_project.full_name_of_center']"))
-            )
-            if not gen_proj_name_checkbox.is_selected():
-                gen_proj_name_checkbox.click()
-                print("Checkbox for Structural genomics project center name selected.") 
+            # gen_proj_name_checkbox = WebDriverWait(driver, 10).until(
+            #     EC.presence_of_element_located((By.XPATH, "//input[@value='entry.pdbx_SG_project.full_name_of_center']"))
+            # )
+            # if not gen_proj_name_checkbox.is_selected():
+            #     gen_proj_name_checkbox.click()
+            #     print("Checkbox for Structural genomics project center name selected.") 
  
             # PUBMED Central ID
             pubmed_central_id_checkbox = WebDriverWait(driver, 10).until(
@@ -139,12 +139,12 @@ for index, row in genes_df.iterrows():
                 print("Checkbox for Disulfide Bonds selected.")   
 
             # Structure Determination Methodology
-            structure_determination_methodology_checkbox = WebDriverWait(driver, 10).until(
-                EC.presence_of_element_located((By.XPATH, "//input[@value='entry.rcsb_entry_info.structure_determination_methodology']"))
-            )
-            if not structure_determination_methodology_checkbox.is_selected():
-                structure_determination_methodology_checkbox.click()
-                print("Checkbox for Structure Determination Methodology selected.")
+            # structure_determination_methodology_checkbox = WebDriverWait(driver, 10).until(
+            #     EC.presence_of_element_located((By.XPATH, "//input[@value='entry.rcsb_entry_info.structure_determination_methodology']"))
+            # )
+            # if not structure_determination_methodology_checkbox.is_selected():
+            #     structure_determination_methodology_checkbox.click()
+            #     print("Checkbox for Structure Determination Methodology selected.")
 
             # DOI
             doi_checkbox = WebDriverWait(driver, 10).until(
@@ -241,14 +241,18 @@ for index, row in genes_df.iterrows():
         colspan = int(header.get_attribute("colspan")) if header.get_attribute("colspan") else 1
         for _ in range(colspan):
             headers.append(header.text.strip())
-    headers = headers[19:]
-    print(headers)
+    headers = headers[int(len(headers)/2):]
 
     # Extract data rows
     data = []
     for row in rows[1:]:
+        # print("\n\n\nROWS", row)
         cols = row.find_elements(By.TAG_NAME, "td")
+        # print("\n\n\nCOLUMNS", cols)
         data.append([col.text for col in cols])
+
+    print('\n\n\nhello')
+    print(len(headers))
 
     # Create a DataFrame
     output_df = pd.DataFrame(data, columns=headers)
@@ -258,7 +262,7 @@ for index, row in genes_df.iterrows():
     print(output_df)
 
     #? Add to CSV
-    output_filename = "raw_output.csv" # edit this filename for different output saving
+    output_filename = "raw_output_custom_report.csv" # edit this filename for different output saving
 
     file_exists = os.path.isfile(output_filename)
     output_df.to_csv(output_filename, mode='a', header=not file_exists, index=False)

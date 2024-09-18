@@ -14,6 +14,6 @@ def filter_csv(input_file_path: str, output_file_path: str):
     df_filtered.to_csv(output_file_path, index=False)
 
 # Example usage
-input_csv = 'raw_output.csv'
+input_csv = 'raw_output_custom_report.csv'
 output_csv = 'cleaned_output.csv'
 filter_csv(input_csv, output_csv)
