@@ -80,8 +80,19 @@ for index, row in genes_df.iterrows():
                 print('RESOLUTION:', resolution)
                 new_row.append(resolution)
             except:
-                print('RESOLUTION: Not found')
-                new_row.append('')
+                print('RESOLUTION (EM): Not found')
+
+                # RESOLUTION (from Diffraction)
+                try:
+                    # RESOLUTION
+                    li_element = driver.find_element(By.ID, 'exp_header_0_diffraction_resolution')
+                    resolution_text = li_element.text
+                    resolution = resolution_text.split('Resolution:')[-1].strip()
+                    print('RESOLUTION:', resolution)
+                    new_row.append(resolution)
+                except:
+                    print('RESOLUTION (D): Not found')
+                    new_row.append('')
 
             try:
                 # XRAY/EM
